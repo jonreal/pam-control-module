@@ -15,46 +15,16 @@ Pam::Pam(char i2c_address){
 
 void Pam::begin(void) {
   Wire.begin();
-
   Wire.beginTransmission(_address);
   Wire.write(byte(0x0));               // turn off all i2c bus channels
   Wire.endTransmission();
   delay(100);
-
-//  setI2cBusChannel(0);
-//
-//  // Check response
-//  Wire.requestFrom(_address,1);
-//  while(Wire.available()) {
-//    char c = Wire.read();
-//    Serial.print(c, BIN);
-//    Serial.println();
-//  }
-//  Serial.println("-----");
-//  
-//  char index = 0;
-//  char buffer[4] = {0, 0, 0, 0};
-//  Wire.requestFrom(SENSOR_I2C_ADDY,4);
-//  while (Wire.available()) {
-//    buffer[index++] = Wire.read();
-//    Serial.println(buffer[index-1],BIN);
-//  }
-//  Serial.println("-----");
-//
-//  int bits = (((unsigned int) (buffer[0] & ~0xC0)) << 8)
-//              | (unsigned int) (buffer[1]);
-//  Serial.println(bits);
-// 
-// float val = ((float) bits - 1638.4)*0.00008042907;
-// Serial.println(val);
 }
 
 void Pam::setupChannel(char chan, int a_sol_pin, int b_sol_pin) {
-
   pinMode(a_sol_pin, OUTPUT);
   digitalWrite(a_sol_pin, LOW);
   _pams[chan].a_sol = a_sol_pin;
-
   pinMode(b_sol_pin, OUTPUT);
   digitalWrite(b_sol_pin, LOW);
   _pams[chan].b_sol = b_sol_pin;
@@ -83,8 +53,6 @@ float Pam::getPressure(char chan) {
   unsigned char buffer[4];
   while (Wire.available()) {
     buffer[index++] = Wire.read();
-   // Serial.print("0b");
-   // Serial.println(buffer[index-1],BIN);
   }
   unsigned int bits = (((unsigned int) (buffer[0] & ~0xC0)) << 8)
               | (unsigned int) (buffer[1]);
