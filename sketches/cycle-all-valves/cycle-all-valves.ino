@@ -27,7 +27,7 @@ void loop() {
   int u[3] = {1, -1, 0};
 
   // loop through all channels and commands
-  for (int ch=0; ch<4; ch++) {
+  for (int ch=0; ch<3; ch++) {
     for (int i=0; i<3; i++) {
       Pam.setValves(ch,u[i]);
       delay(100);

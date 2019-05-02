@@ -45,7 +45,6 @@ void Pam::setValves(char chan, int u) {
 
 float Pam::getPressure(char chan) {
   setI2cBusChannel(chan);
-  delay(10);
 
   Wire.requestFrom(SENSOR_I2C_ADDY,4);
 
@@ -64,6 +63,30 @@ void Pam::setI2cBusChannel(char chan) {
   Wire.beginTransmission(_address);
   Wire.write(byte(chan + 4));
   Wire.endTransmission();
+  delay(10);
 }
 
+unsigned char Pam::readBus(void) {
+  Wire.requestFrom(_address,1);
+  unsigned char rx;
+  while (Wire.available()) {
+    rx = Wire.read();
+  }
+  return rx;
+}
 
+void Pam::debugBus(void) {
+
+  char status = 0;
+  while(1) {
+    for (int i=0; i<4; i++) {
+      setI2cBusChannel(i);
+      status = readBus();
+      Serial.print("Channel ");
+      Serial.print(i);
+      Serial.print(", status =");
+      Serial.println(status, BIN);
+      delay(1000);
+    }
+  }
+} 
