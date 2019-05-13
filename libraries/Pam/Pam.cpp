@@ -89,4 +89,22 @@ void Pam::debugBus(void) {
       delay(1000);
     }
   }
-} 
+}
+
+void Pam::thresholdControl(char chan, float pd, float pm, float thrshld) {
+  float error = pd - pm;
+  char u;
+
+  if (((error + thrshld) >= 0) && ((error - thrshld) <= 0))
+    u = 0;
+  else if ((error - thrshld) > 0)
+    u = 1;
+  else if ((error + thrshld) < 0)
+    u = -1;
+
+  if ((int)pd == 0)
+    u = -1;
+
+  setValves(chan, u);
+}
+

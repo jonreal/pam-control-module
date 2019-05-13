@@ -19,8 +19,9 @@ class Pam
     void setupChannel(char chan, int a_valve, int b_valve);
     void setValves(char chan, int u);
     float getPressure(char chan);
-    void Pam::debugBus(void);
-    unsigned char Pam::readBus(void);
+    void debugBus(void);
+    unsigned char readBus(void);
+    void thresholdControl(char chan, float pd, float pm, float thrshld);
 
   private:
     void setI2cBusChannel(char chan);
